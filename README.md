@@ -1,1 +1,1 @@
-Ida Super Duper Battleship Game
+Super Duper Battleship Game
