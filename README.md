@@ -1,3 +1,1 @@
-Ida & Tanner's Super Duper Battleship Game
-
-Splash
+Super Duper Battleship Game
