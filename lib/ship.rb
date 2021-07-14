@@ -14,4 +14,8 @@ class Ship
   def hit
     @health -= 1
   end
+
+  def visual
+    sunk? ? "X" : "H"
+  end
 end

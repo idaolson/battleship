@@ -46,4 +46,18 @@ RSpec.describe Ship do
       expect(cruiser.sunk?).to be(true)
     end
   end
+
+  context "visual" do
+    it "knows if its H or X" do
+      cruiser = Ship.new("Cruiser", 3)
+
+      expect(cruiser.visual).to eq("H")
+
+      3.times do
+        cruiser.hit
+      end
+
+      expect(cruiser.visual).to eq("X")
+    end
+  end
 end

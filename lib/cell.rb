@@ -25,4 +25,12 @@ class Cell
     @fired_upon = true
     @ship.hit if @ship
   end
+
+  def render(show_ship = false)
+    if fired_upon?
+      @ship ? @ship.visual : "M"
+    else
+      show_ship ? "S" : "."
+    end
+  end
 end

@@ -58,4 +58,41 @@ RSpec.describe Cell do
       expect(cell.ship.health).to eq(2)
     end
   end
+
+  context "rendering the cell" do
+    it "shows dot as default state" do
+      cell_1 = Cell.new("B4")
+
+      expect(cell_1.render).to eq(".")
+
+      cell_1.fire_upon
+
+      expect(cell_1.render).to eq("M")
+    end
+
+    it "can show an S if there's a ship" do
+      cell_2 = Cell.new("C3")
+      cruiser = Ship.new("Cruiser", 3)
+      cell_2.place_ship(cruiser)
+
+      expect(cell_2.render).to eq(".")
+      expect(cell_2.render(true)).to eq("S")
+    end
+
+    it "can show hit or sunk" do
+      cell_2 = Cell.new("C3")
+      cruiser = Ship.new("Cruiser", 3)
+      cell_2.place_ship(cruiser)
+      cell_2.fire_upon
+
+      expect(cell_2.render).to eq("H")
+      expect(cell_2.ship.sunk?).to be(false)
+
+      cell_2.fire_upon
+      cell_2.fire_upon
+
+      expect(cell_2.render).to eq("X")
+      expect(cell_2.ship.sunk?).to be(true)
+    end
+  end
 end
