@@ -23,7 +23,15 @@ class Board
   def valid_placement?(ship, coords)
     return false if ship.length != coords.length
 
+    return false if not_empty?(coords)
+
     in_a_line?(coords, coords.first) && consecutive?(coords)
+  end
+
+  def not_empty?(coords)
+    coords.any? do |coord|
+      @cells[coord].ship
+    end
   end
 
   def in_a_line?(coords, first_coord)
@@ -56,5 +64,17 @@ class Board
     rows = coords.map { |coord| coord[1] }
 
     rows == (rows.first..rows.last).to_a
+  end
+
+  def place(ship, coords)
+    coords.each do |coord|
+      @cells[coord].place_ship(ship)
+    end
+  end
+
+  def render(show_ship = false)
+    @cells.values.each_slice(4).map do |row|
+
+    end 
   end
 end
