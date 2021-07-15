@@ -20,31 +20,25 @@ class Board
     @cells.has_key?(coordinate)
   end
 
-  def valid_placement?(ship, coordinates)
-    return false if ship.length != coordinates.length
-
-    coords = make_coords(coordinates)
+  def valid_placement?(ship, coords)
+    return false if ship.length != coords.length
 
     in_a_line?(coords, coords.first) && consecutive?(coords)
   end
 
-  def make_coords(coordinates)
-    coordinates.map { |coord| coord.chars }
-  end
-
   def in_a_line?(coords, first_coord)
-    same_row?(coords, first_coord) || same_column?(coords, first_coord)
+    same_row?(coords, first_coord[0]) || same_column?(coords, first_coord[1])
   end
 
-  def same_row?(coords, first_coord)
+  def same_row?(coords, letter)
     coords.all? do |coord|
-      first_coord.first == coord.first
+      coord.start_with?(letter)
     end
   end
 
-  def same_column?(coords, first_coord)
+  def same_column?(coords, num)
     coords.all? do |coord|
-      first_coord.last == coord.last
+      coord.end_with?(num)
     end
   end
 
@@ -53,13 +47,13 @@ class Board
   end
 
   def no_column_gaps?(coords)
-    columns = coords.map { |coord| coord.first }
+    columns = coords.map { |coord| coord[0] }
 
     columns == (columns.first..columns.last).to_a
   end
 
   def no_row_gaps?(coords)
-    rows = coords.map { |coord| coord.last }
+    rows = coords.map { |coord| coord[1] }
 
     rows == (rows.first..rows.last).to_a
   end
