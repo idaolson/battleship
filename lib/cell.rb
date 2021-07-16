@@ -30,7 +30,7 @@ class Cell
     if fired_upon?
       @ship ? @ship.visual : "M"
     else
-      show_ship ? "S" : "."
+      show_ship && @ship ? "S" : "."
     end
   end
 end
