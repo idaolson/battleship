@@ -103,4 +103,61 @@ RSpec.describe Board do
       expect(board.in_a_line?(invalid_coords_3, invalid_coords_3.first)).to be(false)
     end
   end
+
+  context "ship placement" do
+    it "can place a ship in multiple cells" do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      board.place(cruiser, ["A1", "A2", "A3"])
+      cell_1 = board.cells["A1"]
+      cell_2 = board.cells["A2"]
+      cell_3 = board.cells["A3"]
+
+      expect(cell_1.ship == cell_2.ship).to be(true)
+      expect(cell_2.ship == cell_3.ship).to be(true)
+    end
+
+    it "can identify if a cell already has a ship" do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      board.place(cruiser, ["A1", "A2", "A3"])
+      submarine = Ship.new("Submarine", 2)
+
+      expect(board.valid_placement?(submarine, ["A1", "B1"])).to be(false)
+    end
+  end
+
+  context "board rendering" do
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    cells = [board.cells["A1"], board.cells["A2"], board.cells["A3"]]
+
+    it "can render an empty board" do
+      expected = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+      expect(board.render).to eq(expected)
+    end
+
+    it "can render a board with a ship displayed" do
+      expected = "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
+      expect(board.render(true)).to eq(expected)
+    end
+
+    it "rows" do
+      expect(board.rows.size).to eq(4)
+    end
+
+    it "make_row" do
+      expect(board.make_row(cells, true)).to eq(%w(S S S))
+    end
+
+    it "format_row" do
+      expect(board.format_row(cells, 2, true)).to eq("C S S S ")
+    end
+
+    it "formatted" do
+      expected = ["A S S S . ", "B . . . . ", "C . . . . ", "D . . . . "]
+      expect(board.formatted(true)).to eq(expected)
+    end
+  end
 end
