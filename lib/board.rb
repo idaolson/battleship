@@ -73,8 +73,34 @@ class Board
   end
 
   def render(show_ship = false)
-    @cells.values.each_slice(4).map do |row|
+    headers = "  1 2 3 4 "
 
-    end 
+    board_image = formatted(show_ship)
+
+    board_image.unshift(headers).join("\n") + "\n"
+  end
+
+  def rows
+    @cells.values.each_slice(4)
+  end
+
+  def formatted(show_ship)
+    rows.each_with_index.map do |cells, i|
+      format_row(cells, i, show_ship)
+    end
+  end
+
+  def format_row (cells, i, show_ship)
+    letters = %w(A B C D)
+
+    row = make_row(cells, show_ship)
+
+    row.unshift(letters[i]).join(" ") + " "
+  end
+
+  def make_row(cells, show_ship)
+    cells.map do |cell|
+      cell.render(show_ship)
+    end
   end
 end
