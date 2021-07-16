@@ -131,6 +131,7 @@ RSpec.describe Board do
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
+    cells = [board.cells["A1"], board.cells["A2"], board.cells["A3"]]
 
     it "can render an empty board" do
       expected = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
@@ -140,6 +141,23 @@ RSpec.describe Board do
     it "can render a board with a ship displayed" do
       expected = "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
       expect(board.render(true)).to eq(expected)
+    end
+
+    it "rows" do
+      expect(board.rows.size).to eq(4)
+    end
+
+    it "make_row" do
+      expect(board.make_row(cells, true)).to eq(%w(S S S))
+    end
+
+    it "format_row" do
+      expect(board.format_row(cells, 2, true)).to eq("C S S S ")
+    end
+
+    it "formatted" do
+      expected = ["A S S S . ", "B . . . . ", "C . . . . ", "D . . . . "]
+      expect(board.formatted(true)).to eq(expected)
     end
   end
 end
