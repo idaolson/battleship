@@ -29,7 +29,7 @@ class Board
 
     return false if not_empty?(coords)
 
-    PlacementValidator.valid?(coords)
+    valid?(coords)
   end
 
   def not_empty?(coords)
