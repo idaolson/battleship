@@ -1,13 +1,12 @@
 require './lib/board'
 require './lib/ship'
 require './lib/cell'
+require './lib/random_placement_generator'
 
 class Game
+  include RandomPlacementGenerator
 
   def initialize
-    @player_board = Board.new
-    @computer_board = Board.new
-    @available_shots = @computer_board.cells.keys
     @player_ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
     @computer_ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
   end
@@ -23,6 +22,7 @@ class Game
   end
 
   def run_game
+    make_boards
     place_computer_ships
     place_player_ships
 
@@ -35,6 +35,39 @@ class Game
     end
 
     new_game
+  end
+
+  def make_boards
+    @dimensions = get_board_dimensions
+    @player_board = Board.new(@dimensions)
+    @computer_board = Board.new(@dimensions)
+    @available_shots = @computer_board.cells.keys
+  end
+
+  def get_board_dimensions
+    puts "How many rows would you like on the board (between 4-26):"
+    print "> "
+    rows = gets.chomp.to_i
+
+    while !(4..26).include?(rows)
+      puts "Please enter valid row count between 4-26:"
+      print "> "
+
+      rows = gets.chomp.to_i
+    end
+
+    puts "How many columns would you like on the board (between 4-26):"
+    print "> "
+    columns = gets.chomp.to_i
+
+    while !(4..26).include?(columns)
+      puts "Please enter valid column count between 4-26:"
+      print "> "
+
+      columns = gets.chomp.to_i
+    end
+
+    [rows, columns]
   end
 
   def new_game
@@ -208,46 +241,14 @@ class Game
 
   def place_computer_ships
     @computer_ships.each do |ship|
-      placement = make_ship_placement(ship)
+      placement = make_ship_placement(ship, @dimensions)
 
       while !@computer_board.valid_placement?(ship, placement) do
-        placement = make_ship_placement(ship)
+        placement = make_ship_placement(ship, @dimensions)
       end
 
       @computer_board.place(ship, placement)
     end
-  end
-
-  def make_ship_placement(ship)
-
-    alignment = ["column", "row"].sample
-
-    if alignment == "row"
-      horizontal_placement(ship)
-    else
-      vertical_placement(ship)
-    end
-
-  end
-
-  def horizontal_placement(ship)
-    row = ("A".."D").to_a.sample
-
-    [1, 2, 3, 4].each_cons(ship.length).map { |columns|
-      columns.map do |column|
-        row + column.to_s
-      end
-    }.sample
-  end
-
-  def vertical_placement(ship)
-    column = (1..4).to_a.sample
-
-    ("A".."D").each_cons(ship.length).map { |rows|
-      rows.map do |row|
-        row + column.to_s
-      end
-    }.sample
   end
 
   def welcome
