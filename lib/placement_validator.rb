@@ -1,6 +1,6 @@
 module PlacementValidator
   extend self
-  
+
   def valid?(coords)
     in_a_line?(coords, coords.first) && consecutive?(coords)
   end

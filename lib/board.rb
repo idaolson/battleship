@@ -4,17 +4,16 @@ class Board
   include PlacementValidator
   attr_reader :cells
 
-  def initialize
+  def initialize(dimensions = [4, 4])
+    @rows = ("A".."Z").take(dimensions.first)
+    @columns = ("1"..dimensions.last.to_s).to_a
     @cells = make_cells
   end
 
   def make_cells
-    letter_array = ("A".."D")
-    number_array = (1..4)
-
-    letter_array.map { |letter|
-      number_array.map do |num|
-        location = letter + num.to_s
+    @rows.map { |letter|
+      @columns.map do |num|
+        location = letter + num
         [location, Cell.new(location)]
       end
     }.flatten(1).to_h
@@ -47,15 +46,26 @@ class Board
   end
 
   def render(show_ship = false)
-    headers = "  1 2 3 4 "
+
+    headers = make_headers
 
     board_image = formatted(show_ship)
 
     board_image.unshift(headers).join("\n") + "\n"
   end
 
+  def make_headers
+    if @columns.length > 10
+      part_one = @columns[0..8].join("  ") + "  "
+      part_two = @columns[9..].join(" ")
+      "   " + part_one + part_two + " "
+    else
+      "  " + @columns.join(" ") + " "
+    end
+  end
+
   def rows
-    @cells.values.each_slice(4)
+    @cells.values.each_slice(@columns.length)
   end
 
   def formatted(show_ship)
@@ -65,11 +75,13 @@ class Board
   end
 
   def format_row (cells, i, show_ship)
-    letters = %w(A B C D)
+      row = make_row(cells, show_ship)
 
-    row = make_row(cells, show_ship)
-
-    row.unshift(letters[i]).join(" ") + " "
+    if @columns.length > 10
+      row.unshift(@rows[i]).join("  ") + " "
+    else
+      row.unshift(@rows[i]).join(" ") + " "
+    end
   end
 
   def make_row(cells, show_ship)
