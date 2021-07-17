@@ -27,6 +27,8 @@ class Board
   def valid_placement?(ship, coords)
     return false if ship.length != coords.length
 
+    return false unless coords.all? { |coord| valid_coordinate?(coord) }
+
     return false if not_empty?(coords)
 
     valid?(coords)
