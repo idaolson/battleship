@@ -6,7 +6,8 @@ module PlacementValidator
   end
 
   def in_a_line?(coords, first_coord)
-    same_row?(coords, first_coord[0]) || same_column?(coords, first_coord[1])
+    number = first_coord.scan(/\d+/).first
+    same_row?(coords, first_coord[0]) || same_column?(coords, number)
   end
 
   def same_row?(coords, letter)
@@ -17,7 +18,7 @@ module PlacementValidator
 
   def same_column?(coords, num)
     coords.all? do |coord|
-      coord.end_with?(num)
+      coord.scan(/\d+/).first == num
     end
   end
 
@@ -32,7 +33,7 @@ module PlacementValidator
   end
 
   def no_row_gaps?(coords)
-    rows = coords.map { |coord| coord[1] }
+    rows = coords.map { |coord| coord.scan(/\d+/).first }
 
     rows == (rows.first..rows.last).to_a
   end
