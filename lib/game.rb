@@ -2,13 +2,13 @@ require './lib/board'
 require './lib/ship'
 require './lib/cell'
 require './lib/random_placement_generator'
+require './lib/custom_ship_generator'
 
 class Game
   include RandomPlacementGenerator
+  include CustomShipGenerator
 
   def initialize
-    @player_ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
-    @computer_ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
   end
 
   def start_game
@@ -23,6 +23,7 @@ class Game
 
   def run_game
     make_boards
+    assign_ships
     place_computer_ships
     place_player_ships
 
@@ -35,6 +36,33 @@ class Game
     end
 
     new_game
+  end
+
+  def assign_ships
+    if custom_ships?
+      ships = make_custom_ships(@dimensions.max)
+    else
+      ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
+    end
+
+    @player_ships = ships
+    @computer_ships = ships
+  end
+
+  def custom_ships?
+    puts "Default ships: Cruiser (3 squares), Submarine (2 squares)"
+    puts "Would you like to create your own ships instead? (y/n)"
+    print "> "
+
+    response = gets.chomp
+
+    while response != "y" && response != "n" do
+       puts "Invalid input. Enter y or n:"
+       print "> "
+       response = gets.chomp
+     end
+
+     response == "y"
   end
 
   def make_boards
@@ -71,11 +99,11 @@ class Game
   end
 
   def new_game
-    @player_board = Board.new
-    @computer_board = Board.new
-    @available_shots = @computer_board.cells.keys
-    @player_ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
-    @computer_ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
+    # @player_board = Board.new
+    # @computer_board = Board.new
+    # @available_shots = @computer_board.cells.keys
+    # @player_ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
+    # @computer_ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
 
     start_game
   end
@@ -92,8 +120,6 @@ class Game
   def computer_win?
     @player_ships.all? { |ship| ship.sunk? }
   end
-
-
 
   def process_turns
     puts display_boards

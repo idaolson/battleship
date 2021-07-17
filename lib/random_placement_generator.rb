@@ -13,7 +13,6 @@ module RandomPlacementGenerator
     else
       vertical_placement(ship, columns, rows)
     end
-
   end
 
   def horizontal_placement(ship, columns, rows)
