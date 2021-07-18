@@ -1,10 +1,9 @@
 module RandomPlacementGenerator
   extend self
 
-  def make_ship_placement(ship, dimensions)
-
-    rows = ("A".."Z").take(dimensions.first)
-    columns = ("1"..dimensions.last.to_s).to_a
+  def make_ship_placement(ship)
+    rows = ("A".."Z").take(@dimensions.first)
+    columns = ("1"..@dimensions.last.to_s).to_a
 
     alignment = ["column", "row"].sample
 
@@ -16,7 +15,6 @@ module RandomPlacementGenerator
   end
 
   def horizontal_placement(ship, columns, rows)
-
     row = rows.sample
 
     columns.each_cons(ship.length).map { |columns|
