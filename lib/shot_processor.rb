@@ -19,14 +19,11 @@ module ShotProcessor
 
   def fire_shot(shot, person)
     firing = {
-      :player => ->(shot) {
-        @computer_board.cells[shot]
-      },
-      :computer => ->(shot) {
-        @player_board.cells[shot]
-      }
+      :player => @computer_board.cells[shot],
+      :computer => @player_board.cells[shot]
     }
-    cell = firing[person].call(shot)
+
+    cell = firing[person]
     cell.fire_upon
     cell.ship ? "hit" : "miss"
   end
