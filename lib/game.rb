@@ -99,12 +99,6 @@ class Game
   end
 
   def new_game
-    # @player_board = Board.new
-    # @computer_board = Board.new
-    # @available_shots = @computer_board.cells.keys
-    # @player_ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
-    # @computer_ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
-
     start_game
   end
 
