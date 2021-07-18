@@ -1,5 +1,25 @@
-module RandomPlacementGenerator
+module RandomShipPlacer
   extend self
+
+  def place_ships(person)
+
+    person_assets = {
+      :player => [@player_board, @player_ships],
+      :computer => [@computer_board, @computer_ships]
+    }
+
+    board, ships = person_assets[person]
+    
+    ships.each do |ship|
+      placement = make_ship_placement(ship)
+
+      while !board.valid_placement?(ship, placement) do
+        placement = make_ship_placement(ship)
+      end
+
+      board.place(ship, placement)
+    end
+  end
 
   def make_ship_placement(ship)
     rows = ("A".."Z").take(@dimensions.first)
