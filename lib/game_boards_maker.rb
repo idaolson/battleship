@@ -2,10 +2,14 @@ module GameBoardsMaker
   extend self
 
   def make_boards
-    @dimensions = get_board_dimensions
-    @player_board = Board.new(@dimensions)
-    @computer_board = Board.new(@dimensions)
-    @available_shots = @computer_board.cells.keys
+    dimensions = get_board_dimensions
+    computer_board = Board.new(dimensions)
+    {
+      dimensions: dimensions,
+      player_board: Board.new(dimensions),
+      computer_board: computer_board,
+      available_shots: computer_board.cells.keys
+    }
   end
 
   def get_board_dimensions
