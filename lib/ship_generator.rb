@@ -1,5 +1,32 @@
-module CustomShipGenerator
+module ShipGenerator
   extend self
+
+  def assign_ships
+    if custom_ships?
+      ships = make_custom_ships(@dimensions.max)
+    else
+      ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
+    end
+
+    @player_ships = ships
+    @computer_ships = ships
+  end
+
+  def custom_ships?
+    puts "Default ships: Cruiser (3 squares), Submarine (2 squares)"
+    puts "Would you like to create your own ships instead? (y/n)"
+    print "> "
+
+    response = gets.chomp
+
+    while response != "y" && response != "n" do
+       puts "Invalid input. Enter y or n:"
+       print "> "
+       response = gets.chomp
+    end
+
+     response == "y"
+  end
 
   def make_custom_ships(max_dimension)
     ships_available = max_dimension / 2
