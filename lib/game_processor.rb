@@ -78,7 +78,7 @@ module GameProcessor
   def display_boards
     [
       "=============COMPUTER BOARD=============",
-      @computer_board.render(true),
+      @computer_board.render,
       "==============PLAYER BOARD==============",
       @player_board.render(true)
     ].join("\n")
