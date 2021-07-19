@@ -66,7 +66,6 @@ class IntelligentComputer
         next_shot_location
       end
     end
-    p @available_shots
     @last_shot
   end
 
