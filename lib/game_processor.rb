@@ -1,14 +1,10 @@
 require './lib/board'
 require './lib/cell'
-require './lib/random_ship_placer'
-require './lib/player_ship_placement'
 require './lib/ship_generator'
 require './lib/shot_processor'
 require './lib/intelligent_computer'
 
 module GameProcessor
-  include RandomShipPlacer
-  include PlayerShipPlacement
   include ShipGenerator
   include ShotProcessor
 
