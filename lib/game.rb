@@ -38,9 +38,15 @@ class Game
     place_ships(:computer)
     player_ship_placement
     game_loop
-    start_game
+    new_game
   end
 
+  def new_game
+    @computer_ships.clear
+    @player_ships.clear
+    start_game
+  end
+  
   def assign_boards
     data = make_boards
     @dimensions = data[:dimensions]
