@@ -1,4 +1,13 @@
+require './lib/board'
+require './lib/cell'
+require './lib/ship_generator'
+require './lib/shot_processor'
+require './lib/intelligent_computer'
+
 module GameProcessor
+  include ShipGenerator
+  include ShotProcessor
+
   extend self
 
   def game_loop
@@ -55,21 +64,21 @@ module GameProcessor
     if @player_ships.any? { |ship| ship.sunk? }
       @player_ships.delete_if { |ship| ship.sunk? }
       @computer_brain.sunk_target
-      return true
+      true
     end
   end
 
   def computer_ship_sunk?
     if @computer_ships.any? { |ship| ship.sunk? }
       @computer_ships.delete_if { |ship| ship.sunk? }
-      return true
+      true
     end
   end
 
   def display_boards
     [
       "=============COMPUTER BOARD=============",
-      @computer_board.render(true),
+      @computer_board.render,
       "==============PLAYER BOARD==============",
       @player_board.render(true)
     ].join("\n")
