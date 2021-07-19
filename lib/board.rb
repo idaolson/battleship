@@ -2,7 +2,7 @@ require "./lib/placement_validator"
 
 class Board
   include PlacementValidator
-  attr_reader :cells
+  attr_reader :cells, :rows
 
   def initialize(dimensions = [4, 4])
     @rows = ("A".."Z").take(dimensions.first)
