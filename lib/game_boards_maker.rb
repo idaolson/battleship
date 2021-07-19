@@ -21,7 +21,7 @@ module GameBoardsMaker
     print "> "
 
     input = gets.chomp.to_i
-    while !(4..26).include?(columns)
+    while !(4..26).include?(input)
       puts "Please enter valid #{direction} count between 4-26:"
       print "> "
 
