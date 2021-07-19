@@ -55,14 +55,14 @@ module GameProcessor
     if @player_ships.any? { |ship| ship.sunk? }
       @player_ships.delete_if { |ship| ship.sunk? }
       @computer_brain.sunk_target
-      return true
+      true
     end
   end
 
   def computer_ship_sunk?
     if @computer_ships.any? { |ship| ship.sunk? }
       @computer_ships.delete_if { |ship| ship.sunk? }
-      return true
+      true
     end
   end
 
