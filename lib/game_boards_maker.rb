@@ -3,12 +3,11 @@ module GameBoardsMaker
 
   def make_boards
     dimensions = get_board_dimensions
-    computer_board = Board.new(dimensions)
+
     {
       dimensions: dimensions,
       player_board: Board.new(dimensions),
-      computer_board: computer_board,
-      available_shots: computer_board.cells.keys
+      computer_board: Board.new(dimensions)
     }
   end
 
