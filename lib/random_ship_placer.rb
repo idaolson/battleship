@@ -1,3 +1,5 @@
+require './lib/board'
+
 module RandomShipPlacer
   extend self
 
@@ -9,7 +11,7 @@ module RandomShipPlacer
     }
 
     board, ships = person_assets[person]
-    
+
     ships.each do |ship|
       placement = make_ship_placement(ship)
 

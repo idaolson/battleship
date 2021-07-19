@@ -1,21 +1,15 @@
-require './lib/board'
-require './lib/ship'
-require './lib/cell'
 require './lib/game_boards_maker'
-require './lib/random_ship_placer'
-require './lib/player_ship_placement'
-require './lib/ship_generator'
-require './lib/shot_processor'
 require './lib/game_processor'
-require './lib/intelligent_computer'
+require './lib/placement_validator'
+require './lib/player_ship_placement'
+require './lib/random_ship_placer'
 
 class Game
-  include RandomShipPlacer
-  include PlayerShipPlacement
-  include ShipGenerator
   include GameProcessor
   include GameBoardsMaker
-  include ShotProcessor
+  include PlacementValidator
+  include PlayerShipPlacement
+  include RandomShipPlacer
 
   def initialize
     @player_ships = []
@@ -46,7 +40,7 @@ class Game
     @player_ships.clear
     start_game
   end
-  
+
   def assign_boards
     data = make_boards
     @dimensions = data[:dimensions]
@@ -72,7 +66,6 @@ class Game
 
   def start?
     print "> "
-
     response = validate_start_response
 
     response == "p"
@@ -80,7 +73,6 @@ class Game
 
   def validate_start_response
     response = gets.chomp
-
     while response != "p" && response != "q" do
       puts "Invalid input. " + welcome.split("\n").last
       print "> "
