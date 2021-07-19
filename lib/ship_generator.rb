@@ -5,7 +5,7 @@ module ShipGenerator
     if custom_ships?
       ships = make_custom_ships(@dimensions.max)
     else
-      ships = [Ship.new("cruiser", 3), Ship.new("submarine", 2)]
+      ships = [["cruiser", 3], ["submarine", 2]]
     end
 
     ships
@@ -58,7 +58,7 @@ module ShipGenerator
   end
 
   def create_ship(max_dimension)
-    Ship.new(get_name, get_length(max_dimension))
+    [get_name, get_length(max_dimension)]
   end
 
   def get_name

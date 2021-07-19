@@ -5,6 +5,7 @@ module GameProcessor
     loop do
       process_turns
       if winner
+        puts display_boards
         puts winner
         break
       end
@@ -28,6 +29,7 @@ module GameProcessor
     puts display_boards
     player_result = process_player_shot
     computer_result = process_computer_shot
+    @computer_brain.hit_ship(computer_result.last)
     puts display_results(player_result, computer_result)
     sunken_ship
   end
@@ -52,6 +54,7 @@ module GameProcessor
   def player_ship_sunk?
     if @player_ships.any? { |ship| ship.sunk? }
       @player_ships.delete_if { |ship| ship.sunk? }
+      @computer_brain.sunk_target
       return true
     end
   end
@@ -61,5 +64,14 @@ module GameProcessor
       @computer_ships.delete_if { |ship| ship.sunk? }
       return true
     end
+  end
+
+  def display_boards
+    [
+      "=============COMPUTER BOARD=============",
+      @computer_board.render(true),
+      "==============PLAYER BOARD==============",
+      @player_board.render(true)
+    ].join("\n")
   end
 end
