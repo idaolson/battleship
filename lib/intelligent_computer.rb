@@ -46,13 +46,14 @@ class IntelligentComputer
   end
 
   def stay_on_board(direction)
-    if @target[direction] == nil
+    next_shot = @target[direction]
+    if next_shot == nil
       @target.delete(@target.keys.first)
     end
   end
 
   def shot_choosing
-    if @last_shot_hit
+      if @last_shot_hit
       @hit_count += 1
       smart_shooting(@last_shot)
     else
@@ -65,16 +66,16 @@ class IntelligentComputer
         next_shot_location
       end
     end
+    p @available_shots
     @last_shot
   end
 
   def next_shot_location
     shot = @target.values.first
-    if !@available_shots.include?(shot)
+    while !@available_shots.include?(shot)
       @target.delete(@target.keys.first)
-      shot_choosing
+      shot = @target.values.first
     end
-      
     @available_shots.delete(shot)
     @last_shot = shot
   end
@@ -108,6 +109,10 @@ class IntelligentComputer
     number = number.to_i
     number += 1
     letter + number.to_s
+  end
+
+  def in_available_shots?(cell)
+    @available_shots.include?(cell)
   end
 
   def hit_ship(result)
