@@ -7,6 +7,7 @@ require './lib/player_ship_placement'
 require './lib/ship_generator'
 require './lib/shot_processor'
 require './lib/game_processor'
+require './lib/intelligent_computer'
 
 class Game
   include RandomShipPlacer
@@ -17,6 +18,8 @@ class Game
   include ShotProcessor
 
   def initialize
+    @player_ships = []
+    @computer_ships = []
   end
 
   def start_game
@@ -35,30 +38,29 @@ class Game
     place_ships(:computer)
     player_ship_placement
     game_loop
-    start_game
+    new_game
   end
 
+  def new_game
+    @computer_ships.clear
+    @player_ships.clear
+    start_game
+  end
+  
   def assign_boards
     data = make_boards
     @dimensions = data[:dimensions]
     @player_board = data[:player_board]
     @computer_board = data[:computer_board]
-    @available_shots = data[:available_shots]
+    @computer_brain = IntelligentComputer.new(@player_board, @dimensions)
   end
 
   def assign_ships
-    ships = make_ships
-    @player_ships = ships
-    @computer_ships = ships
-  end
+    make_ships.each do |name, length|
+      @player_ships << Ship.new(name, length)
+      @computer_ships << Ship.new(name, length)
+    end
 
-  def display_boards
-    [
-      "=============COMPUTER BOARD=============",
-      @computer_board.render(true),
-      "==============PLAYER BOARD==============",
-      @player_board.render(true)
-    ].join("\n")
   end
 
   def welcome

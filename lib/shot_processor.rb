@@ -1,12 +1,7 @@
 module ShotProcessor
   def process_computer_shot
-    computer_shot = get_computer_shot
+    computer_shot = @computer_brain.shot_choosing
     [computer_shot, fire_shot(computer_shot, :computer)]
-  end
-
-  def get_computer_shot
-    shot = @available_shots.sample
-    @available_shots.delete(shot)
   end
 
   def process_player_shot
