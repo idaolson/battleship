@@ -72,9 +72,9 @@ class IntelligentComputer
     shot = @target.values.first
     if !@available_shots.include?(shot)
       @target.delete(@target.keys.first)
-      shot_choosing
+      shot = @target.values.first
     end
-      
+
     @available_shots.delete(shot)
     @last_shot = shot
   end
