@@ -5,64 +5,62 @@ class IntelligentComputer
     @rows = ("A".."Z").take(dimensions.first)
     @available_shots = @board.cells.keys
     @hit_count = 0
-    @last_shot = nil
     @last_shot_hit = false
   end
 
-  def make_target(cell)
+  def make_target
     @target = {
-      up: cell,
-      down: one_below(cell),
-      left: one_left(cell),
-      right: one_right(cell)
+      up: @last_shot,
+      down: one_below,
+      left: one_left,
+      right: one_right
     }
   end
 
-  def smart_shooting(cell)
-    make_target(cell) if @hit_count == 1
+  def smart_shooting
+    make_target if @hit_count == 1
 
     update_direction = {
-      :up => ->(cell) {
-        @target[:up] = one_above(cell)
+      :up => -> {
+        @target[:up] = one_above
         stay_on_board(:up)
       },
-      :down => ->(cell) {
-        @target[:down] = one_below(cell)
+      :down => -> {
+        @target[:down] = one_below
         stay_on_board(:down)
       },
-      :left => ->(cell) {
-        @target[:left] = one_left(cell)
+      :left => -> {
+        @target[:left] = one_left
         stay_on_board(:left)
       },
-      :right => ->(cell) {
-        @target[:right] = one_right(cell)
-        stay_on_board(:right)
+      :right => -> {
+        @target[:right] = one_right
       }
     }
-
-    update_direction[@target.keys.first].call(@target.values.first)
+    update_direction[@target.keys.first].call
 
     next_shot_location
   end
 
+  def change_direction
+    @target.delete(@target.keys.first)
+  end
+
   def stay_on_board(direction)
     next_shot = @target[direction]
-    if next_shot == nil
-      @target.delete(@target.keys.first)
-    end
+    change_direction if next_shot == nil
   end
 
   def shot_choosing
-      if @last_shot_hit
+    if @last_shot_hit
       @hit_count += 1
-      smart_shooting(@last_shot)
+      smart_shooting
     else
       if @hit_count == 0
-        shot = @available_shots.sample
-        @available_shots.delete(shot)
-        @last_shot = shot
+        @last_shot = @available_shots.sample
+        @available_shots.delete(@last_shot)
       else
-        @target.delete(@target.keys.first)
+        change_direction
         next_shot_location
       end
     end
@@ -72,42 +70,34 @@ class IntelligentComputer
   def next_shot_location
     shot = @target.values.first
     while !@available_shots.include?(shot)
-      @target.delete(@target.keys.first)
+      change_direction
       shot = @target.values.first
     end
-
-    @available_shots.delete(shot)
-    @last_shot = shot
+    @last_shot = @available_shots.delete(shot)
   end
 
-  def one_above(cell)
-    cell = cell.chars
-    row_num = @rows.index(cell.first)
-    row_num -= 1
+  def one_above
+    cell = @last_shot.chars
+    row_num = @rows.index(cell.first) - 1
     return nil if row_num < 0
-    cell[0] = @rows[row_num]
-    cell.join
+    @rows[row_num] + cell[1..].join
   end
 
-  def one_below(cell)
-    cell = cell.chars
-    row_num = @rows.index(cell.first)
-    row_num += 1
-    cell[0] = @rows[row_num]
-    cell.join
+  def one_below
+    cell = @last_shot.chars
+    row_num = @rows.index(cell.first) + 1
+    @rows[row_num] + cell[1..].join
   end
 
-  def one_left(cell)
-    letter, number = cell.scan(/(\w)(\d+)/).first
-    number = number.to_i
-    number -= 1
+  def one_left
+    letter, number = @last_shot.scan(/(\w)(\d+)/).first
+    number = number.to_i - 1
     letter + number.to_s
   end
 
-  def one_right(cell)
-    letter, number = cell.scan(/(\w)(\d+)/).first
-    number = number.to_i
-    number += 1
+  def one_right
+    letter, number = @last_shot.scan(/(\w)(\d+)/).first
+    number = number.to_i + 1
     letter + number.to_s
   end
 
