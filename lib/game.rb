@@ -1,9 +1,15 @@
 require './lib/game_boards_maker'
 require './lib/game_processor'
+require './lib/placement_validator'
+require './lib/player_ship_placement'
+require './lib/random_ship_placer'
 
 class Game
   include GameProcessor
   include GameBoardsMaker
+  include PlacementValidator
+  include PlayerShipPlacement
+  include RandomShipPlacer
 
   def initialize
     @player_ships = []
