@@ -82,5 +82,3 @@ class Game
     response
   end
 end
-
-game = Game.new.start_game
