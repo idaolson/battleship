@@ -11,3 +11,4 @@ module PlacementValidator
       result == [1, 0] || result == [0, 1]
     end
   end
+end
