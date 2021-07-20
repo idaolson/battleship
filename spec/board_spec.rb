@@ -39,6 +39,7 @@ RSpec.describe Board do
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
+    ship = Ship.new("Cruiser", 4)
 
     it "can check same size" do
       expect(board.valid_placement?(cruiser, ["A1", "A2"])).to be(false)
@@ -58,6 +59,7 @@ RSpec.describe Board do
     it "accepts valid placement" do
       expect(board.valid_placement?(submarine, ["A1", "A2"])).to be(true)
       expect(board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to be(true)
+      expect(board.valid_placement?(ship, ["A1", "B1", "C1", "D1"])).to be(true)
     end
   end
 
