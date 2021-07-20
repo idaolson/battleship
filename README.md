@@ -1,3 +1,3 @@
-Ida Super Duper Battleship Game
+Super Super Battleship Game
 
-Hit 
+Designed and built by Ida Olson and Tanner Dale
