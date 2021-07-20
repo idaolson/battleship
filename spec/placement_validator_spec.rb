@@ -3,7 +3,7 @@ require './lib/placement_validator'
 RSpec.describe PlacementValidator do
   context 'placement validation' do
     valid_coords_1 = ["A1", "A2", "A3"]
-    valid_coords_2 = ["A1", "B1", "C1"]
+    valid_coords_2 = ["A8", "A9", "A10"]
 
     invalid_coords_1 = ["A1", "A2", "A4"]
     invalid_coords_2 = ["A1", "B1", "D1"]
