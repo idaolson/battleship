@@ -76,12 +76,13 @@ module ShipGenerator
   end
 
   def get_length(max_dimension)
-    puts "Enter ship length (between 2 and #{max_dimension}):"
+    max_length = max_dimension > 10 ? max_dimension / 2 : max_dimension
+    puts "Enter ship length (between 2 and #{max_length}):"
     print "> "
 
     length = gets.chomp.to_i
-    while !(2..max_dimension).include?(length) do
-      puts "Invalid input. Enter ship length (between 2 and #{max_dimension}):"
+    while !(2..max_length).include?(length) do
+      puts "Invalid input. Enter ship length (between 2 and #{max_length}):"
       print "> "
       length = gets.chomp.to_i
     end
