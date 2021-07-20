@@ -32,10 +32,10 @@ module ShipGenerator
     puts "You have up to #{ships_available} ships available to make."
 
     ships = []
-    while ships_available > 0
+    loop do
       ships << create_ship(max_dimension)
       ships_available -= 1
-      break if no_more_ships?(ships_available)
+      break if ships_available == 0 || no_more_ships?(ships_available)
     end
 
     ships
