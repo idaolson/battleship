@@ -2,39 +2,24 @@ module PlacementValidator
   extend self
 
   def valid?(coords)
-    in_a_line?(coords, coords.first) && consecutive?(coords)
-  end
+    coords = coords.map { |coord| coord.bytes }
 
-  def in_a_line?(coords, first_coord)
-    number = first_coord.scan(/\d+/).first
-    same_row?(coords, first_coord[0]) || same_column?(coords, number)
-  end
+    coords[..-2].each_with_index.all? do |coord, i|
+      next_coord = coords[i + 1]
 
-  def same_row?(coords, letter)
-    coords.all? do |coord|
-      coord.start_with?(letter)
+      result = get_result(coord, next_coord)
+
+      result.one? { |num| num == 1 }
     end
   end
 
-  def same_column?(coords, num)
-    coords.all? do |coord|
-      coord.scan(/\d+/).first == num
+  def get_result(coord, next_coord)
+    coord.each_with_index.map do |coord2, i|
+      if coord2 == 57
+        1 if coord2 - next_coord[i] == 8
+      else
+        next_coord[i] - coord2
+      end
     end
-  end
-
-  def consecutive?(coords)
-    no_row_gaps?(coords) || no_column_gaps?(coords)
-  end
-
-  def no_column_gaps?(coords)
-    columns = coords.map { |coord| coord[0] }
-
-    columns == (columns.first..columns.last).to_a
-  end
-
-  def no_row_gaps?(coords)
-    rows = coords.map { |coord| coord.scan(/\d+/).first }
-
-    rows == (rows.first..rows.last).to_a
   end
 end
