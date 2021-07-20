@@ -86,6 +86,7 @@ class IntelligentComputer
   def one_below
     cell = @last_shot.chars
     row_num = @rows.index(cell.first) + 1
+    return nil if @rows[row_num].nil?
     @rows[row_num] + cell[1..].join
   end
 
