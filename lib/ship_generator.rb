@@ -3,7 +3,7 @@ module ShipGenerator
 
   def make_ships
     if custom_ships?
-      ships = make_custom_ships(@dimensions.max)
+      ships = make_custom_ships(@dimensions.min)
     else
       ships = [["cruiser", 3], ["submarine", 2]]
     end
@@ -28,7 +28,7 @@ module ShipGenerator
   end
 
   def make_custom_ships(max_dimension)
-    ships_available = max_dimension / 2
+    ships_available = max_dimension > 6 ? max_dimension / 2 : max_dimension
     puts "You have up to #{ships_available} ships available to make."
 
     ships = []
@@ -76,7 +76,7 @@ module ShipGenerator
   end
 
   def get_length(max_dimension)
-    max_length = max_dimension > 10 ? max_dimension / 2 : max_dimension
+    max_length = max_dimension > 6 ? max_dimension / 2 : max_dimension
     puts "Enter ship length (between 2 and #{max_length}):"
     print "> "
 
