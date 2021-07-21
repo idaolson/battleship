@@ -39,5 +39,13 @@ RSpec.describe PlacementValidator do
       expect(PlacementValidator.valid?(valid_coords_1)).to be(true)
       expect(PlacementValidator.valid?(invalid_coords_3)).to be(false)
     end
+
+    it 'returns one if coord is 57' do
+      expect(PlacementValidator.get_result([57], [49])).to eq([1])
+    end
+
+    it 'returns a proper subtraction' do
+      expect(PlacementValidator.get_result([25, 10], [30, 20])).to eq([5, 10])
+    end
   end
 end
